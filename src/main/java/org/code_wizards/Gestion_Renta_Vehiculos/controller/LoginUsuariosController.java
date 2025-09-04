@@ -92,7 +92,7 @@ public class LoginUsuariosController implements Serializable {
                             .getSessionMap().put("clienteLogueado", c);
 
                     LOGGER.info("Login exitoso: " + c.getCorreo());
-                    return "PaginaInicio?faces-redirect=true"; // Redirige a la página principal
+                    return "catalogoVehiculos?faces-redirect=true"; // Redirige a la página principal
                 }
             }
 

@@ -6,7 +6,7 @@ create table Vehiculos(
 	matricula int auto_increment,
     marca varchar(64),
     modelo varchar(64),
-    año varchar(12),
+    anio varchar(12),
     tipo varchar(64),
     precioDiario int,
     disponibilidad enum ('disponible', 'no disponible') default 'disponible',

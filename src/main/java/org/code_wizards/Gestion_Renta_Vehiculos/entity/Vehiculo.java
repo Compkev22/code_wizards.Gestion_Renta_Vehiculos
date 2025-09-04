@@ -22,6 +22,7 @@ public class Vehiculo {
     private String tipo;
     private Integer precioDiario;
     private String disponibilidad;
+    private String descripcion;
 
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
