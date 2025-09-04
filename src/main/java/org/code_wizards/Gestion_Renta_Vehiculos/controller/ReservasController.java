@@ -52,7 +52,10 @@ public class ReservasController implements Serializable {
         return "reservaVehiculo?faces-redirect=true";
     }
 
-    // Guardar reserva
+    /**
+     * Guardar reserva solo si el vehículo está disponible
+     */
+    
     public void guardarReserva() {
         try {
             if (vehiculoSeleccionado == null) {
@@ -70,7 +73,7 @@ public class ReservasController implements Serializable {
                 return;
             }
 
-            // Validar fechas
+            // Validar que se hayan seleccionado fechas
             if (fechaInicio == null || fechaFin == null) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Fechas incompletas",
@@ -78,6 +81,7 @@ public class ReservasController implements Serializable {
                 return;
             }
 
+            // Validar que la fecha de fin no sea anterior a la de inicio
             if (fechaFin.before(fechaInicio)) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Fechas incorrectas",
@@ -85,26 +89,31 @@ public class ReservasController implements Serializable {
                 return;
             }
 
-            if (!reservaService.estaDisponible(vehiculoSeleccionado, fechaInicio, fechaFin)) {
+            // VERIFICAR DISPONIBILIDAD ANTES DE CONFIRMAR
+            boolean disponible = reservaService.estaDisponible(vehiculoSeleccionado, fechaInicio, fechaFin);
+
+            if (!disponible) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Vehículo no disponible",
-                                "El vehículo ya está reservado en esas fechas"));
+                                "El vehículo ya está reservado en las fechas seleccionadas. Por favor, elige otras fechas o selecciona otro vehículo."));
                 return;
             }
 
+            // Crear y guardar reserva
             Reserva reserva = new Reserva();
             reserva.setVehiculo(vehiculoSeleccionado);
             reserva.setCliente(clienteLogueado);
             reserva.setFechaInicio(sdf.format(fechaInicio));
             reserva.setFechaFin(sdf.format(fechaFin));
 
-            // Guardar reserva
             reservaService.guardarReserva(reserva);
 
+            // Confirmación al cliente
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva Confirmada",
                             "Tu reserva se realizó correctamente"));
 
+            // Limpiar selección
             fechaInicio = null;
             fechaFin = null;
             vehiculoSeleccionado = null;
