@@ -16,8 +16,12 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
     private String nombre;
-    private String correo;
-    private String contraseña;
+    private String apellido;
+    private String telefono ;
+    private String correo ;
+    private String contraseña ;
+    private String direccion;
+    private String nit;
     private String rol;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,6 +73,22 @@ public class Cliente {
         this.rol = rol;
     }
 
+    public String getApellido() { return apellido; }
+
+    public void setApellido(String apellido) {this.apellido = apellido;}
+
+    public String getTelefono() {return telefono;}
+
+    public void setTelefono(String telefono) {this.telefono = telefono;}
+
+    public String getDireccion() {return direccion;}
+
+    public void setDireccion(String direccion) {this.direccion = direccion;}
+
+    public String getNit() {return nit;}
+
+    public void setNit(String nit) {this.nit = nit;}
+
     @Override
     public String toString() {
         return "Cliente{" +
@@ -76,7 +96,10 @@ public class Cliente {
                 ", nombre='" + nombre + '\'' +
                 ", correo='" + correo + '\'' +
                 ", constraseña='" + contraseña + '\'' +
-                ", rol='" + rol + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", NIT='" + nit + '\'' +
                 '}';
     }
 }

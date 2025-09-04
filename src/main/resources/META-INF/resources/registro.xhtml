@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Registro de Cliente</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        .ui-button, .ui-widget {
+            font-family: inherit !important;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="surface-ground flex align-items-center justify-content-center min-h-screen p-4">
+        <div class="card p-5 surface-card shadow-5 w-full md:w-30rem">
+            <div class="text-center mb-5">
+                <h1 class="text-2xl font-bold mt-3 mb-2">Registro</h1>
+            </div>
+
+            <h:form id="registroForm">
+                <p:messages autoUpdate="true"/>
+
+                <!-- Creamos un objeto temporal nuevoCliente -->
+                <f:attribute name="nuevoCliente" value="#{loginUsuariosController.nuevoCliente}"/>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="nombre" value="Nombre" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="nombre" value="#{loginUsuariosController.nuevoCliente.nombre}" required="true" label="Nombre" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="apellido" value="Apellido" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="apellido" value="#{loginUsuariosController.nuevoCliente.apellido}" required="true" label="Apellido" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="telefono" value="Teléfono" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="telefono" value="#{loginUsuariosController.nuevoCliente.telefono}" required="true" label="Teléfono" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="correo" value="Correo" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="correo" value="#{loginUsuariosController.nuevoCliente.correo}" required="true" label="Correo" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="contraseña" value="Contraseña" class="block text-900 font-medium mb-2"/>
+                    <p:password id="contraseña" value="#{loginUsuariosController.nuevoCliente.contraseña}" required="true" label="Contraseña" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="direccion" value="Dirección" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="direccion" value="#{loginUsuariosController.nuevoCliente.direccion}" required="true" label="Dirección" styleClass="w-full"/>
+                </div>
+
+                <div class="field mb-4">
+                    <p:outputLabel for="nit" value="NIT" class="block text-900 font-medium mb-2"/>
+                    <p:inputText id="nit" value="#{loginUsuariosController.nuevoCliente.nit}" required="true" label="NIT" styleClass="w-full"/>
+                </div>
+
+                <p:commandButton value="Registrarse"
+                                 styleClass="w-full"
+                                 style="height: 3.5rem; font-size: 1.25rem;"
+                                 action="#{loginUsuariosController.registrarCliente}"
+                                 update="registroForm"
+                                 process="@form"/>
+
+                <div class="mt-4 text-center text-900">
+                    <h:outputText value="¿Ya tienes cuenta? "/>
+                    <h:outputLink value="loginUsuarios.xhtml" style="text-decoration: underline; font-weight: bold;">
+                        Inicia sesión
+                    </h:outputLink>
+                </div>
+
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

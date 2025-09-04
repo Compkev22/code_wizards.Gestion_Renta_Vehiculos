@@ -14,13 +14,16 @@ create table Vehiculos(
 );
 
 create table Clientes(
-	idCliente int auto_increment,
-    nombre varchar(64),
-    telefono varchar(64),
-    correo varchar(64),
-    contraseña varchar(64),
-    rol enum ('cliente','administrador') default 'cliente',
-    constraint pk_clientes primary key(idCliente)
+     idCliente int auto_increment,
+     nombre varchar(64),
+     apellido varchar(64),
+     telefono varchar(64),
+     correo varchar(64),
+     contraseña varchar(64),
+     rol enum('cliente','administrador') default 'cliente',
+     direccion varchar(128),
+     nit varchar(15) default 'CF',
+     constraint pk_clientes primary key(idCliente)
 );
 
 create table Tarjetas(
