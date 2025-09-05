@@ -9,11 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
 </h:head>
 <h:body class="bg-gray-900 text-white">
-
     <div class="max-w-6xl mx-auto p-6">
-
         <p:growl id="growl" showDetail="true" life="5000" sticky="false" />
-
         <h:panelGroup rendered="#{not empty reservasController.vehiculoSeleccionado}">
 
 
@@ -49,6 +46,14 @@
                         <p:calendar value="#{reservasController.fechaFin}" pattern="yyyy-MM-dd HH:mm"
                                     showTime="true" required="true" styleClass="w-full p-2 rounded"/>
                     </div>
+
+                    <h:panelGroup rendered="#{reservasController.diasReservados > 0}">
+                        <h3 class="text-xl text-yellow-300 mb-4">
+                            Días reservados: #{reservasController.diasReservados} <br/>
+                            Costo total: Q#{reservasController.costoTotal}
+                        </h3>
+                    </h:panelGroup>
+  
                 </div>
 
                 <p:commandButton value="Confirmar Reserva"

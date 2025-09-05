@@ -25,6 +25,8 @@ public class ReservasController implements Serializable {
     private Vehiculo vehiculoSeleccionado;
     private Date fechaInicio;
     private Date fechaFin;
+    private int diasReservados;
+    private int costoTotal;
 
     @Autowired
     private VehiculoService vehiculoService;
@@ -52,10 +54,21 @@ public class ReservasController implements Serializable {
         return "reservaVehiculo?faces-redirect=true";
     }
 
-    /**
-     * Guardar reserva solo si el vehículo está disponible
-     */
-    
+    // Calcular costo total y días reservados
+    public void calcularCosto() {
+        if (fechaInicio != null && fechaFin != null) {
+            if (!fechaFin.before(fechaInicio)) {
+                long diff = fechaFin.getTime() - fechaInicio.getTime();
+                diasReservados = (int) ((diff / (1000 * 60 * 60 * 24)) + 1);
+                costoTotal = diasReservados * vehiculoSeleccionado.getPrecioDiario();
+            } else {
+                diasReservados = 0;
+                costoTotal = 0;
+            }
+        }
+    }
+
+    // Guardar reserva
     public void guardarReserva() {
         try {
             if (vehiculoSeleccionado == null) {
@@ -73,7 +86,6 @@ public class ReservasController implements Serializable {
                 return;
             }
 
-            // Validar que se hayan seleccionado fechas
             if (fechaInicio == null || fechaFin == null) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Fechas incompletas",
@@ -81,7 +93,6 @@ public class ReservasController implements Serializable {
                 return;
             }
 
-            // Validar que la fecha de fin no sea anterior a la de inicio
             if (fechaFin.before(fechaInicio)) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Fechas incorrectas",
@@ -89,34 +100,36 @@ public class ReservasController implements Serializable {
                 return;
             }
 
-            // VERIFICAR DISPONIBILIDAD ANTES DE CONFIRMAR
-            boolean disponible = reservaService.estaDisponible(vehiculoSeleccionado, fechaInicio, fechaFin);
-
-            if (!disponible) {
+            // Verificar disponibilidad
+            if (!reservaService.estaDisponible(vehiculoSeleccionado, fechaInicio, fechaFin)) {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN, "Vehículo no disponible",
-                                "El vehículo ya está reservado en las fechas seleccionadas. Por favor, elige otras fechas o selecciona otro vehículo."));
+                                "El vehículo ya está reservado en esas fechas. Selecciona otras fechas o otro vehículo."));
                 return;
             }
 
-            // Crear y guardar reserva
+            // Crear reserva
             Reserva reserva = new Reserva();
             reserva.setVehiculo(vehiculoSeleccionado);
             reserva.setCliente(clienteLogueado);
             reserva.setFechaInicio(sdf.format(fechaInicio));
             reserva.setFechaFin(sdf.format(fechaFin));
+            reserva.setCostoTotal(String.valueOf(costoTotal));
 
             reservaService.guardarReserva(reserva);
 
-            // Confirmación al cliente
+            // Mensaje con días y costo
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva Confirmada",
-                            "Tu reserva se realizó correctamente"));
+                            "Tu reserva fue realizada correctamente. Días: " + diasReservados +
+                                    ", Costo total: Q" + costoTotal));
 
-            // Limpiar selección
+            // Limpiar
             fechaInicio = null;
             fechaFin = null;
             vehiculoSeleccionado = null;
+            diasReservados = 0;
+            costoTotal = 0;
 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -131,7 +144,15 @@ public class ReservasController implements Serializable {
     public Vehiculo getVehiculoSeleccionado() { return vehiculoSeleccionado; }
     public void setVehiculoSeleccionado(Vehiculo vehiculoSeleccionado) { this.vehiculoSeleccionado = vehiculoSeleccionado; }
     public Date getFechaInicio() { return fechaInicio; }
-    public void setFechaInicio(Date fechaInicio) { this.fechaInicio = fechaInicio; }
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+        calcularCosto();
+    }
     public Date getFechaFin() { return fechaFin; }
-    public void setFechaFin(Date fechaFin) { this.fechaFin = fechaFin; }
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+        calcularCosto();
+    }
+    public int getDiasReservados() { return diasReservados; }
+    public int getCostoTotal() { return costoTotal; }
 }
