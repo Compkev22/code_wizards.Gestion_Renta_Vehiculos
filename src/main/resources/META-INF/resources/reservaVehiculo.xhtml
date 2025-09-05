@@ -6,60 +6,97 @@
 <h:head>
     <title>Reserva de Vehículo</title>
     <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
 </h:head>
-<h:body class="bg-gray-900 text-white">
+<h:body class="bg-gray-50 text-gray-900">
+
     <div class="max-w-6xl mx-auto p-6">
-        <p:growl id="growl" showDetail="true" life="5000" sticky="false" />
+        <p:growl id="growl" showDetail="true" life="5000"/>
+
         <h:panelGroup rendered="#{not empty reservasController.vehiculoSeleccionado}">
 
-
-            <h1 class="text-5xl font-bold text-yellow-400 mb-6 text-center">
-                #{reservasController.vehiculoSeleccionado.marca} #{reservasController.vehiculoSeleccionado.modelo}
-            </h1>
-
-            <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8 border-l-4 border-yellow-400">
-                <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Detalles del Vehículo</h2>
-                <ul class="space-y-2">
-                    <li><strong class="text-yellow-200">Marca:</strong> #{reservasController.vehiculoSeleccionado.marca}</li>
-                    <li><strong class="text-yellow-200">Modelo:</strong> #{reservasController.vehiculoSeleccionado.modelo}</li>
-                    <li><strong class="text-yellow-200">Año:</strong> #{reservasController.vehiculoSeleccionado.anio}</li>
-                    <li><strong class="text-yellow-200">Tipo:</strong> #{reservasController.vehiculoSeleccionado.tipo}</li>
-                    <li><strong class="text-yellow-200">Precio por día:</strong> Q#{reservasController.vehiculoSeleccionado.precioDiario}</li>
-                    <li><strong class="text-yellow-200">Descripción:</strong> #{reservasController.vehiculoSeleccionado.descripcion}</li>
-                </ul>
+            <!-- Título -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-blue-900">
+                    #{reservasController.vehiculoSeleccionado.marca} #{reservasController.vehiculoSeleccionado.modelo}
+                </h1>
+                <p class="text-gray-600">Detalles completos del vehículo</p>
             </div>
 
-            <h:form id="formReserva" styleClass="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-yellow-400">
+            <!-- Contenedor imagen + tabla -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-10">
+                
 
-                <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Selecciona tus fechas de reserva</h2>
-
-                <div class="grid grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="text-yellow-200 font-semibold mb-2 block">Fecha y hora de inicio</label>
-                        <p:calendar value="#{reservasController.fechaInicio}" pattern="yyyy-MM-dd HH:mm"
-                                    showTime="true" required="true" styleClass="w-full p-2 rounded"/>
-                    </div>
-
-                    <div>
-                        <label class="text-yellow-200 font-semibold mb-2 block">Fecha y hora de fin</label>
-                        <p:calendar value="#{reservasController.fechaFin}" pattern="yyyy-MM-dd HH:mm"
-                                    showTime="true" required="true" styleClass="w-full p-2 rounded"/>
-                    </div>
-
-                    <h:panelGroup rendered="#{reservasController.diasReservados > 0}">
-                        <h3 class="text-xl text-yellow-300 mb-4">
-                            Días reservados: #{reservasController.diasReservados} <br/>
-                            Costo total: Q#{reservasController.costoTotal}
-                        </h3>
-                    </h:panelGroup>
-  
+                <!-- Tabla de información -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Información del Vehículo</h3>
+                    <table class="w-full border border-gray-300 rounded-lg overflow-hidden">
+                        <tbody>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Matrícula</td>
+                            <td class="p-2">#{reservasController.vehiculoSeleccionado.matricula}</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Marca</td>
+                            <td class="p-2">#{reservasController.vehiculoSeleccionado.marca}</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Modelo</td>
+                            <td class="p-2">#{reservasController.vehiculoSeleccionado.modelo}</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Año</td>
+                            <td class="p-2">#{reservasController.vehiculoSeleccionado.anio}</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Tipo</td>
+                            <td class="p-2">#{reservasController.vehiculoSeleccionado.tipo}</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-2 font-medium">Precio Diario</td>
+                            <td class="p-2 text-blue-700 font-bold">Q#{reservasController.vehiculoSeleccionado.precioDiario}</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-medium">Disponibilidad</td>
+                            <td class="p-2">
+                                    <span class="#{reservasController.vehiculoSeleccionado.disponibilidad eq 'disponible' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}">
+                                        #{reservasController.vehiculoSeleccionado.disponibilidad}
+                                    </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
+
+            <!-- Formulario de reserva -->
+            <h:form id="formReserva" styleClass="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Selecciona tus fechas de reserva</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block mb-2 font-medium">Fecha y hora de inicio</label>
+                        <p:calendar value="#{reservasController.fechaInicio}" pattern="yyyy-MM-dd HH:mm"
+                                    showTime="true" required="true" styleClass="w-full p-2 border border-gray-300 rounded"/>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-medium">Fecha y hora de fin</label>
+                        <p:calendar value="#{reservasController.fechaFin}" pattern="yyyy-MM-dd HH:mm"
+                                    showTime="true" required="true" styleClass="w-full p-2 border border-gray-300 rounded"/>
+                    </div>
+                </div>
+
+                <h:panelGroup rendered="#{reservasController.diasReservados > 0}">
+                    <h3 class="text-lg mb-4 font-semibold text-gray-700">
+                        Días reservados: #{reservasController.diasReservados} <br/>
+                        Costo total: <span class="text-blue-800 font-bold">Q#{reservasController.costoTotal}</span>
+                    </h3>
+                </h:panelGroup>
 
                 <p:commandButton value="Confirmar Reserva"
                                  action="#{reservasController.guardarReserva}"
                                  update="growl, formReserva"
-                                 styleClass="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded shadow"/>
+                                 styleClass="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded shadow"/>
             </h:form>
 
         </h:panelGroup>
@@ -69,8 +106,6 @@
                 No se ha seleccionado ningún vehículo
             </h2>
         </h:panelGroup>
-
     </div>
-
 </h:body>
 </html>
