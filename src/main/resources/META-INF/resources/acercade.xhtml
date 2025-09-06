@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Acerca de Nosotros</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Contenedor principal de la página */
+        .main-content-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Estilos generales de secciones y tarjetas */
+        .header {
+            background-color: #202CE8;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .content-section {
+            background-color: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        .content-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #202CE8;
+            font-weight: 600;
+        }
+        .content-section p {
+            font-size: 1.1em;
+            margin: 0 auto 10px;
+            max-width: 800px;
+            color: #555;
+        }
+        .content-section .sub-heading {
+            font-size: 1.5em;
+            color: #FF8C00;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        /* Estilos para las tarjetas de valores */
+        .values-card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .value-card {
+            flex: 1 1 300px; /* Permite que las tarjetas se envuelvan en pantallas pequeñas */
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .value-card h3 {
+            color: #202CE8;
+            margin: 0 0 10px;
+        }
+        .value-card p {
+            font-size: 1em;
+            color: #555;
+            margin: 0;
+        }
+
+        /* Estilos para testimonios */
+        .testimonial-card-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .testimonial-card {
+            max-width: 450px;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            font-style: italic;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1em;
+            margin: 0;
+        }
+        .testimonial-card h4 {
+            margin-top: 15px;
+            color: #202CE8;
+            font-style: normal;
+        }
+
+        /* Pie de página */
+        .footer {
+            background-color: #202CE8;
+            color: #fff;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: auto;
+            border-top: none;
+            border-radius: 0;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="main-content-container">
+        <div class="header">
+            <h1>Acerca de Nosotros</h1>
+        </div>
+
+        <div class="content-section">
+            <h2>Nuestra Misión y Visión</h2>
+            <p>Nuestra misión es proporcionar una experiencia de alquiler de vehículos sin complicaciones, segura y de alta calidad para cada cliente. Buscamos ser el líder en la industria de renta de vehículos, ofreciendo una flota diversa y un servicio al cliente excepcional que supere las expectativas.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Nuestros Valores</h2>
+            <div class="values-card-container">
+                <div class="value-card">
+                    <h3>Confianza</h3>
+                    <p>Construimos relaciones duraderas con nuestros clientes basadas en la transparencia y la honestidad en cada transacción.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Innovación</h3>
+                    <p>Estamos comprometidos con la mejora continua, incorporando tecnología para simplificar el proceso de alquiler y ofrecer lo mejor del mercado.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Atención al Cliente</h3>
+                    <p>El cliente es nuestra prioridad. Nuestro equipo está siempre listo para ayudar, garantizando una experiencia positiva de principio a fin.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>¿Por Qué Elegirnos?</h2>
+            <p>Somos más que una empresa de alquiler de vehículos. Nos enorgullecemos de ofrecer:</p>
+            <ul style="list-style-type: none; padding: 0; text-align: left; max-width: 600px; margin: 20px auto;">
+                <li><p style="margin: 5px 0; color: #202CE8;">&#x2713; **Flota Moderna y Segura:** Vehículos nuevos y bien mantenidos para tu tranquilidad.</p></li>
+                <li><p style="margin: 5px 0; color: #202CE8;">&#x2713; **Precios Competitivos:** Tarifas transparentes sin cargos ocultos.</p></li>
+                <li><p style="margin: 5px 0; color: #202CE8;">&#x2713; **Reserva Sencilla:** Un proceso de reserva rápido y fácil a través de nuestra plataforma.</p></li>
+                <li><p style="margin: 5px 0; color: #202CE8;">&#x2713; **Soporte 24/7:** Asistencia disponible en cualquier momento que la necesites.</p></li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Testimonios</h2>
+            <div class="testimonial-card-container">
+                <div class="testimonial-card">
+                    <p>"El mejor servicio de alquiler que he utilizado. El proceso de reserva fue muy simple y el vehículo estaba en perfectas condiciones. ¡Muy recomendable!"</p>
+                    <h4>— Fernando M.</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"El personal fue increíblemente amable y servicial. Me ayudaron a encontrar el vehículo perfecto para mi viaje familiar. ¡Volveré a usarlos!"</p>
+                    <h4>— Kenneth M.</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>©2025 Gestionadora de Renta de Vehículos. Todos los derechos reservados.</p>
+    </div>
+</h:body>
+</html>
