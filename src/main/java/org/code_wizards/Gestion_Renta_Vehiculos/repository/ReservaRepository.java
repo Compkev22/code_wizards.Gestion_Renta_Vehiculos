@@ -1,4 +1,12 @@
 package org.code_wizards.Gestion_Renta_Vehiculos.repository;
 
-public interface ReservaRepository {
+import org.code_wizards.Gestion_Renta_Vehiculos.entity.Reserva;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
+    List<Reserva> findByVehiculo_Matricula(int matricula);
 }
