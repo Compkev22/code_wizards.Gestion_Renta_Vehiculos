@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Gestionadora de Renta de Vehículos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* Estilos del Menú de Navegación */
+        .custom-menubar {
+            background-color: #202CE8 !important;
+            border: none !important;
+            border-radius: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-menubar .ui-menuitem-link {
+            color: #fff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-menubar .ui-menuitem-link:hover {
+            background-color: #1A24B9 !important;
+        }
+
+        .custom-menubar .ui-menuitem-text,
+        .custom-menubar .ui-icon {
+            color: #fff !important;
+        }
+
+        /* Estilos de botones dentro del menú */
+        .ui-button-action {
+            background: linear-gradient(45deg, #FF8C00, #FFA500) !important;
+            border: none !important;
+            border-radius: 20px !important;
+            color: #fff !important;
+            margin-right: 45px;
+            width: 130px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .ui-button-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid #D3D3D3 !important;
+            background: linear-gradient(45deg, #FF8C00, #FFA500) !important;
+        }
+
+        .ui-button-action .ui-button-text {
+            display: inline-block;
+        }
+
+        /* Contenedor principal de la página */
+        .main-content-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: #202CE8;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: none;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Secciones de Contenido */
+        .content-section {
+            background-color: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .content-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #202CE8;
+            font-weight: 600;
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            margin: 0 auto 10px;
+            max-width: 800px;
+            color: #555;
+        }
+
+        /* Estilos para la sección de servicios */
+        .service-card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .service-card {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            transition: transform 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        .service-card h3 {
+            color: #333;
+            margin: 15px 0 10px;
+        }
+        .service-card p {
+            color: #555;
+        }
+
+        /* Estilos para el catálogo de vehículos estático */
+        .vehicle-card-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .vehicle-card {
+            flex: 1;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .vehicle-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .vehicle-details {
+            padding: 15px;
+        }
+        .vehicle-details h3 {
+            color: #202CE8;
+            font-size: 1.3em;
+            margin: 0 0 5px;
+        }
+        .vehicle-details p {
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .vehicle-button {
+            background-color: #FF8C00 !important;
+            border-color: #FF8C00 !important;
+            color: #fff !important;
+        }
+
+        /* Estilos para testimonios */
+        .testimonial-card-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .testimonial-card {
+            max-width: 450px;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            font-style: italic;
+        }
+        .testimonial-card h4 {
+            margin-top: 15px;
+            color: #202CE8;
+        }
+
+        /* Pie de página */
+        .footer {
+            background-color: #202CE8;
+            color: #fff;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 60px;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h:form>
+        <p:menubar styleClass="custom-menubar">
+            <f:facet name="start">
+                <p:menuitem value="Inicio" outcome="PaginaInicio" icon="pi pi-home" />
+            </f:facet>
+            <f:facet name="end">
+                <p:button value="Inicio Sesión" outcome="login" styleClass="ui-button ui-button-sm ui-button-action" />
+                <p:button value="Registrarme" outcome="registro" styleClass="ui-button ui-button-sm ui-button-action" />
+                <p:button value="Acerca de" outcome="acercade" styleClass="ui-button ui-button-sm ui-button-action" />
+                <p:button value="Administracion" outcome="loginAdministrador" styleClass="ui-button ui-button-sm ui-button-action" />
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div class="main-content-container">
+        <div class="header">
+            <h1>Gestionadora de Renta de Vehículos</h1>
+        </div>
+
+        <div class="content-section">
+            <h2>Bienvenido a nuestro sistema de gestión</h2>
+            <p>
+                Somos una empresa de renta de vehículos dedicada a ofrecer un servicio de calidad y una flota diversa.
+                Utiliza este sistema para gestionar vehículos, clientes y reservaciones de manera eficiente.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>Nuestra Flota Destacada</h2>
+            <div class="vehicle-card-container">
+
+                <p:panel header="Toyota Yaris" styleClass="vehicle-card">
+                    <p:graphicImage name="/images/Toyota.png" styleClass="vehicle-image" />
+                    <div class="vehicle-details">
+                        <h3>Sedán Económico</h3>
+                        <p>Perfecto para la ciudad, con bajo consumo de combustible y gran comodidad.</p>
+                    </div>
+                </p:panel>
+
+                <p:panel header="Honda CR-V" styleClass="vehicle-card">
+                    <p:graphicImage name="/images/Honda.jpg" styleClass="vehicle-image" />
+                    <div class="vehicle-details">
+                        <h3>SUV Familiar</h3>
+                        <p>Espacioso y seguro, ideal para viajes en familia y aventuras fuera de la ciudad.</p>
+                    </div>
+                </p:panel>
+
+                <p:panel header="Nissan Qashqai" styleClass="vehicle-card">
+                    <p:graphicImage name="/images/Nissan.png" styleClass="vehicle-image" />
+                    <div class="vehicle-details">
+                        <h3>Camioneta Moderna</h3>
+                        <p>La opción perfecta para el trabajo duro o para transportar grandes cargas.</p>
+                    </div>
+                </p:panel>
+
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Nuestros Servicios</h2>
+            <div class="service-card-container">
+                <div class="service-card">
+                    <i class="pi pi-shield" style="font-size: 2.5em; color: #202CE8;"></i>
+                    <h3>Seguro Incluido</h3>
+                    <p>Todos nuestros vehículos incluyen seguro completo para tu tranquilidad.</p>
+                </div>
+                <div class="service-card">
+                    <i class="pi pi-car" style="font-size: 2.5em; color: #202CE8;"></i>
+                    <h3>Flota Diversa</h3>
+                    <p>Tenemos autos para cada necesidad, desde sedanes económicos hasta SUVs de lujo.</p>
+                </div>
+                <div class="service-card">
+                    <i class="pi pi-map-marker" style="font-size: 2.5em; color: #202CE8;"></i>
+                    <h3>Recogida Flexible</h3>
+                    <p>Elige dónde y cuándo quieres recoger o devolver tu vehículo.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Lo que dicen nuestros clientes</h2>
+            <div class="testimonial-card-container">
+                <div class="testimonial-card">
+                    <p>"El proceso de renta fue increíblemente fácil y rápido. El auto estaba impecable. ¡Altamente recomendado!"</p>
+                    <h4>- Sebastian C.</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"La atención al cliente es excepcional. Me ayudaron a encontrar el vehículo perfecto para mi viaje."</p>
+                    <h4>- Kevin V.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>©2025 Gestionadora de Renta de Vehículos. Todos los derechos reservados.</p>
+    </div>
+</h:body>
+</html>
