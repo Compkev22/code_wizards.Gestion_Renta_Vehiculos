@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Tarjetas")
@@ -21,5 +22,6 @@ public class Tarjetas {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @ToString.Exclude
     private Cliente cliente;
 }
