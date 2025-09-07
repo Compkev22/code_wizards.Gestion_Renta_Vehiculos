@@ -38,7 +38,7 @@ public class ReservasController implements Serializable {
 
     @PostConstruct
     public void init() {
-        listaVehiculos = vehiculoService.obtenerTodos();
+        listaVehiculos = vehiculoService.listarVehiculos();
 
         Object vehiculo = FacesContext.getCurrentInstance().getExternalContext()
                 .getSessionMap().get("vehiculoSeleccionado");

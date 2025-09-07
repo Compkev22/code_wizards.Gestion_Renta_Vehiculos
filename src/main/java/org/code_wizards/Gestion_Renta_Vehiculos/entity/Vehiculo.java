@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
+
 import java.util.List;
 
 @Entity
@@ -18,11 +20,12 @@ public class Vehiculo {
     private Integer matricula;
     private String marca;
     private String modelo;
-    private String anio;
+    private String año;
     private String tipo;
     private Integer precioDiario;
     private String disponibilidad;
 
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Reserva> reservas;
 }
