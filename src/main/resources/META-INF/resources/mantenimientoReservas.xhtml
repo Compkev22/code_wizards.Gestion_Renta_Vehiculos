@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            Mantenimiento de Reservas
+        </title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form id="formulario-reservas">
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Regresar" icon="pi pi-chevron-left"
+                                    action="administracion.xhtml"/>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-user"
+                                    update=":formulario-reservas:tabla-reservas"
+                                    actionListener="#{mantenimientoReservaController.cargarDatos()}"/>
+                        <p:menuitem value="Nueva Reserva" icon="pi pi-fw pi-plus"
+                                    actionListener="#{mantenimientoReservaController.agregarReserva()}"
+                                    update=":formulario-modal:ventana-reserva"
+                                    oncomplete="PF('ventanaModalReserva').show()"/>
+                    </p:menubar>
+                </div>
+                <div class="card">
+                    <p:dataTable value="#{mantenimientoReservaController.reservas}" var="reserva"
+                                 id="tabla-reservas" widgetVar="reservaTabla">
+                        <f:facet name="header">
+                            <div class="flex justify-content-center flex-wrap
+                                        card-container yellow-container">
+                                <div class="flex align-items-center justify-content-center
+                                            w-20rem h4rem bg-yellow-500 font-bold m-2
+                                            text-gray-900 border-round">
+                                    <h3>Registro de Reservas</h3>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="ID RESERVA">
+                            <h:outputText value="#{reserva.idReserva}"/>
+                        </p:column>
+                        <p:column headerText="FECHA INICIO">
+                            <h:outputText value="#{reserva.fechaInicio}"/>
+                        </p:column>
+                        <p:column headerText="FECHA FIN">
+                            <h:outputText value="#{reserva.fechaFin}"/>
+                        </p:column>
+                        <p:column headerText="COSTO TOTAL">
+                            <h:outputText value="#{reserva.costoTotal}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-reserva"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalReserva').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{reserva}"
+                                        target="#{mantenimientoReservaController.reservaSeleccionada}"/>
+                                <p:resetInput target=":formulario-modal:ventana-reserva"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger" process="@this"
+                                             oncomplete="PF('ventanaEliminarReserva').show()">
+                                <f:setPropertyActionListener value="#{reserva}" target="#{mantenimientoReservaController.reservaSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <p:growl id="mensaje-emergente" showDetails="true" />
+            </h:form>
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle de Reservas" showEffect="fade" modal="true" widgetVar="ventanaModalReserva" responsive="true">
+                    <p:outputPanel id="ventana-reserva" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="fechaInicio">Fecha de Inicio</p:outputLabel>
+                            <p:inputText id="fechaInicio"
+                                         value="#{mantenimientoReservaController.reservaSeleccionada.fechaInicio}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaFin">Fecha de Fin</p:outputLabel>
+                            <p:inputText id="fechaFin"
+                                         value="#{mantenimientoReservaController.reservaSeleccionada.fechaFin}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="costoTotal">Costo Total</p:outputLabel>
+                            <p:inputText id="costoTotal"
+                                         value="#{mantenimientoReservaController.reservaSeleccionada.costoTotal}"
+                                         required="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"  process="ventana-reserva @this" actionListener="#{mantenimientoReservaController.guardarReserva}" oncomplete="PF('ventanaModalReserva').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('ventanaModalReserva').hide()" class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog widgetVar="ventanaEliminarReserva" showEffect="fade" width="300" message="¿Desea eliminar la reserva?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" process="@this" actionListener="#{mantenimientoReservaController.eliminarReserva}" oncomplete="PF('ventanaEliminarReserva').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" onclick="PF('ventanaEliminarReserva').hide()" styleClass="ui-button-secondary" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

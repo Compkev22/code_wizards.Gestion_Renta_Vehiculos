@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "Reservas")
@@ -21,9 +22,11 @@ public class Reserva {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "matricula", referencedColumnName = "matricula")
+    @ToString.Exclude
     private Vehiculo vehiculo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente", referencedColumnName = "idCliente")
+    @ToString.Exclude
     private Cliente cliente;
 }

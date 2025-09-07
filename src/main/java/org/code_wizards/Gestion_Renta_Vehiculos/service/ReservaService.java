@@ -3,6 +3,7 @@ package org.code_wizards.Gestion_Renta_Vehiculos.service;
 import org.code_wizards.Gestion_Renta_Vehiculos.entity.Reserva;
 import org.code_wizards.Gestion_Renta_Vehiculos.entity.Vehiculo;
 import org.code_wizards.Gestion_Renta_Vehiculos.repository.ReservaRepository;
+import org.code_wizards.Gestion_Renta_Vehiculos.service.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +13,30 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ReservaService {
+public class ReservaService implements IReservaService {
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    ReservaRepository reservaRepository;
     private final SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
-    public Reserva guardarReserva(Reserva reserva) {
-        return reservaRepository.save(reserva);
-    }
-
+    @Override
     public List<Reserva> listarReservas() {
-        return reservaRepository.findAll();
+        return this.reservaRepository.findAll();
     }
 
-    public Reserva buscarPorId(Integer id) {
-        return reservaRepository.findById(id).orElse(null);
+    @Override
+    public Reserva buscarReservaPorId(Integer id) {
+        return this.reservaRepository.findById(id).orElse(null);
     }
 
-    public void eliminarReserva(Integer id) {
-        reservaRepository.deleteById(id);
+    @Override
+    public void guardarReserva(Reserva reserva) {
+        this.reservaRepository.save(reserva);
+    }
+
+    @Override
+    public void eliminarReserva(Reserva reserva) {
+        this.reservaRepository.delete(reserva);
     }
 
     public List<Reserva> obtenerReservasPorVehiculo(int matriculaVehiculo) {
