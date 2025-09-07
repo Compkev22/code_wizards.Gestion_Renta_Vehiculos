@@ -1,36 +1,38 @@
 package org.code_wizards.Gestion_Renta_Vehiculos.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Entity(name = "Clientes")
-@Data//generar los setters y getters
-@NoArgsConstructor//el constructor vacio
-@AllArgsConstructor//el constructor lleno
-@EqualsAndHashCode//el metodo para trabajar con HashCode// id interno para la clase
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
     private String nombre;
     private String apellido;
-    private String telefono ;
-    private String correo ;
-    private String contraseña ;
+    private String telefono;
+    private String correo;
+    private String contraseña;
     private String direccion;
     private String nit;
     private String rol;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Tarjetas> tarjetas;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Licencias> licencias;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Reserva> reservas;
 
     public Integer getIdCliente() {
@@ -95,11 +97,11 @@ public class Cliente {
                 "idCliente=" + idCliente +
                 ", nombre='" + nombre + '\'' +
                 ", correo='" + correo + '\'' +
-                ", constraseña='" + contraseña + '\'' +
+                ", contraseña='" + contraseña + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", direccion='" + direccion + '\'' +
-                ", NIT='" + nit + '\'' +
+                ", nit='" + nit + '\'' +
                 '}';
     }
 }

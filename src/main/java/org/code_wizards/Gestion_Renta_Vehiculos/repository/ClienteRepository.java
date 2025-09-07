@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-
+    Cliente findByCorreo(String correo);
     Cliente findByCorreoAndContraseña(String correo, String contraseña);
 }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            Mantenimiento de Clientes
+        </title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form id="formulario-clientes">
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Regresar" icon="pi pi-chevron-left"
+                                    action="administracion.xhtml"/>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-user"
+                                    update=":formulario-clientes:tabla-clientes"
+                                    actionListener="#{mantenimientoClienteController.cargarDatos()}"/>
+                        <p:menuitem value="Nuevo Cliente" icon="pi pi-fw pi-plus"
+                                    actionListener="#{mantenimientoClienteController.agregarCliente()}"
+                                    update=":formulario-modal:ventana-cliente"
+                                    oncomplete="PF('ventanaModalCliente').show()"/>
+                    </p:menubar>
+                </div>
+                <div class="card">
+                    <p:dataTable value="#{mantenimientoClienteController.clientes}" var="cliente"
+                                 id="tabla-clientes" widgetVar="clienteTabla">
+                        <f:facet name="header">
+                            <div class="flex justify-content-center flex-wrap
+                                        card-container yellow-container">
+                                <div class="flex align-items-center justify-content-center
+                                            w-20rem h4rem bg-yellow-500 font-bold m-2
+                                            text-gray-900 border-round">
+                                    <h3>Registro de Clientes</h3>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="NOMBRE">
+                            <h:outputText value="#{cliente.nombre}"/>
+                        </p:column>
+                        <p:column headerText="APELLIDO">
+                            <h:outputText value="#{cliente.apellido}"/>
+                        </p:column>
+                        <p:column headerText="TELÉFONO">
+                            <h:outputText value="#{cliente.telefono}"/>
+                        </p:column>
+                        <p:column headerText="CORREO">
+                            <h:outputText value="#{cliente.correo}"/>
+                        </p:column>
+                        <p:column headerText="DIRECCIÓN">
+                            <h:outputText value="#{cliente.direccion}"/>
+                        </p:column>
+                        <p:column headerText="NIT">
+                            <h:outputText value="#{cliente.nit}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-cliente"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalCliente').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{cliente}"
+                                        target="#{mantenimientoClienteController.clienteSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-cliente"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger" process="@this"
+                                             oncomplete="PF('ventanaEliminarCliente').show()">
+                                <f:setPropertyActionListener value="#{cliente}" target="#{mantenimientoClienteController.clienteSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <p:growl id="mensaje-emergente" showDetails="true" />
+            </h:form>
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle Clientes" showEffect="fade" modal="true" widgetVar="ventanaModalCliente" responsive="true">
+                    <p:outputPanel id="ventana-cliente" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                            <p:inputText id="nombre"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.nombre}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">Apellido</p:outputLabel>
+                            <p:inputText id="apellido"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.apellido}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="telefono">Teléfono</p:outputLabel>
+                            <p:inputText id="telefono"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.telefono}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="correo">Correo</p:outputLabel>
+                            <p:inputText id="correo"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.correo}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="direccion">Dirección</p:outputLabel>
+                            <p:inputText id="direccion"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.direccion}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="nit">NIT</p:outputLabel>
+                            <p:inputText id="nit"
+                                         value="#{mantenimientoClienteController.clienteSeleccionado.nit}"
+                                         required="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"  process="ventana-cliente @this" actionListener="#{mantenimientoClienteController.guardarCliente}" oncomplete="PF('ventanaModalCliente').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('ventanaModalCliente').hide()" class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog widgetVar="ventanaEliminarCliente" showEffect="fade" width="300" message="¿Desea eliminar el cliente?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" process="@this" actionListener="#{mantenimientoClienteController.eliminarCliente}" oncomplete="PF('ventanaEliminarCliente').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" onclick="PF('ventanaEliminarCliente').hide()" styleClass="ui-button-secondary" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>
