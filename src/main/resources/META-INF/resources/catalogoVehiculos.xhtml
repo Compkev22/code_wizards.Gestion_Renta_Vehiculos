@@ -7,34 +7,220 @@
     <title>Catálogo de Vehículos</title>
     <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
     <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
-</h:head>
-<h:body>
-    <div class="p-5">
-        <h1 class="text-3xl mb-4">Catálogo de Vehículos</h1>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
 
+        /* Estilos del Menú de Navegación */
+        .custom-menubar {
+            background-color: #202CE8 !important;
+            border: none !important;
+            border-radius: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-menubar .ui-menuitem-link {
+            color: #fff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-menubar .ui-menuitem-link:hover {
+            background-color: #1A24B9 !important;
+        }
+
+        .custom-menubar .ui-menuitem-text,
+        .custom-menubar .ui-icon {
+            color: #fff !important;
+        }
+
+        /* Estilos de botones dentro del menú */
+        .ui-button-action {
+            background: linear-gradient(45deg, #FF8C00, #FFA500) !important;
+            border: none !important;
+            border-radius: 20px !important;
+            color: #fff !important;
+            margin-right: 45px;
+            width: 130px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .ui-button-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 2px solid #D3D3D3 !important;
+            background: linear-gradient(45deg, #FF8C00, #FFA500) !important;
+        }
+
+        .ui-button-action .ui-button-text {
+            display: inline-block;
+        }
+
+        /* Contenedor principal de la página */
+        .main-content-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Encabezado */
+        .header {
+            background-color: #202CE8;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: none;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Secciones de Contenido */
+        .content-section {
+            background-color: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .content-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #202CE8;
+            font-weight: 600;
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            margin: 0 auto 10px;
+            max-width: 800px;
+            color: #555;
+        }
+
+        /* Estilos específicos para la tabla de vehículos */
+        .ui-datatable .ui-datatable-header,
+        .ui-datatable .ui-datatable-footer {
+            text-align: left;
+            padding: 1rem;
+            background-color: #202CE8;
+            color: #fff;
+            border: none;
+        }
+
+        .ui-datatable .ui-datatable-header h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .ui-datatable .ui-datatable-tablewrapper {
+            border: none;
+        }
+
+        .ui-datatable table {
+            border-collapse: collapse;
+        }
+
+        .ui-datatable th {
+            background-color: #1A24B9;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid #202CE8;
+        }
+
+        .ui-datatable td {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem;
+        }
+
+        .ui-datatable tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ui-datatable .ui-paginator {
+            background-color: #f0f2f5;
+            border-radius: 0 0 12px 12px;
+            border: none;
+        }
+
+        .ui-datatable .ui-paginator a {
+            color: #202CE8 !important;
+        }
+
+        .ui-datatable .ui-paginator .ui-state-active {
+            background-color: #202CE8 !important;
+            color: #fff !important;
+        }
+
+        /* Estilo del botón de reserva */
+        .ui-datatable .ui-button {
+            background-color: #FF8C00 !important;
+            border: none !important;
+            color: #fff !important;
+            transition: all 0.3s ease;
+        }
+
+        .ui-datatable .ui-button:hover {
+            background-color: #FFA500 !important;
+            transform: scale(1.05);
+        }
+
+    </style>
+</h:head>
+<body>
+<div class="main-content-container">
+    <div class="content-section">
+        <h2>Catálogo de Vehículos</h2>
         <h:form>
             <p:dataTable value="#{reservasController.listaVehiculos}" var="veh"
-                         styleClass="w-full" paginator="true" rows="5">
-                <p:column headerText="Matrícula">
-                    #{veh.matricula}
-                </p:column>
-                <p:column headerText="Marca">
-                    #{veh.marca}
-                </p:column>
-                <p:column headerText="Modelo">
-                    #{veh.modelo}
-                </p:column>
-                <p:column headerText="Precio por día">
-                    #{veh.precioDiario}
+                         styleClass="w-full" paginator="true" rows="5"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+                <p:column headerText="Matrícula" style="width: 15%;">
+                    <h:outputText value="#{veh.matricula}"/>
                 </p:column>
 
-                <p:column>
+                <p:column headerText="Marca" style="width: 25%;">
+                    <h:outputText value="#{veh.marca}"/>
+                </p:column>
+
+                <p:column headerText="Modelo" style="width: 25%;">
+                    <h:outputText value="#{veh.modelo}"/>
+                </p:column>
+
+                <p:column headerText="Precio por día (Q)" style="width: 20%;">
+                    <h:outputText value="#{veh.precioDiario}"/>
+                </p:column>
+
+                <p:column style="width: 15%; text-align: center;">
                     <p:commandButton value="Reservar"
                                      action="#{reservasController.irAReserva(veh)}"
-                                     ajax="false" icon="pi pi-calendar-plus"/>
+                                     ajax="false" icon="pi pi-calendar-plus"
+                                     disabled="#{veh.disponibilidad ne 'disponible'}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
     </div>
-</h:body>
+</div>
+</body>
 </html>
